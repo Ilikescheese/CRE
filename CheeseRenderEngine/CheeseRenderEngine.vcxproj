@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c281db8c-63fc-4b12-8804-cbc3daacb582}</ProjectGuid>
+    <RootNamespace>CheeseRenderEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;GlWrapper.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\x86;C:\Users\alex\source\repos\CheeseRenderEngine\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;GlWrapper.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\x86;C:\Users\alex\source\repos\CheeseRenderEngine\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\Debug\x64;C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Debug;extras\assimp\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GlWrapper.lib;glfw3dll.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\Release\x64;C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;GlWrapper.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\src\glad.c" />
+    <ClCompile Include="AssetPool.cpp" />
+    <ClCompile Include="Batcher.cpp" />
+    <ClCompile Include="BillboardMat.cpp" />
+    <ClCompile Include="GenericMat.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialManager.cpp" />
+    <ClCompile Include="PhongMat.cpp" />
+    <ClCompile Include="RendEnt.cpp" />
+    <ClCompile Include="ShaderDb.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AssetPool.h" />
+    <ClInclude Include="Batcher.h" />
+    <ClInclude Include="BillboardMat.h" />
+    <ClInclude Include="extras\loadMesh.h" />
+    <ClInclude Include="GenericMat.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialManager.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="PhongMat.h" />
+    <ClInclude Include="RendEnt.h" />
+    <ClInclude Include="shaderDb.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,6 @@
+﻿  Logger.cpp
+  main.cpp
+C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\extras\Camera.h(28,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\alex\source\repos\CheeseRenderEngine\main.cpp(80,32): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+C:\Users\alex\source\repos\CheeseRenderEngine\main.cpp(83,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+LINK : fatal error LNK1181: cannot open input file 'GlWrapper.lib'

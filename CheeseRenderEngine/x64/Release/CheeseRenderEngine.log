@@ -1,0 +1,29 @@
+﻿  Batcher.cpp
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\Batcher.cpp(44,32): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\Batcher.cpp(48,33): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+  main.cpp
+C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\extras\Camera.h(24,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\extras\loadMesh.h(22,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\extras\loadMesh.h(41,32): warning C4018: '<': signed/unsigned mismatch
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\extras\loadMesh.h(44,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\main.cpp(104,32): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\main.cpp(107,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+main.obj : error LNK2001: unresolved external symbol glfwGetTime
+main.obj : error LNK2001: unresolved external symbol "public: struct aiScene const * __cdecl Assimp::Importer::ReadFile(char const *,unsigned int)" (?ReadFile@Importer@Assimp@@QEAAPEBUaiScene@@PEBDI@Z)
+main.obj : error LNK2001: unresolved external symbol "public: __cdecl Assimp::Importer::~Importer(void)" (??1Importer@Assimp@@QEAA@XZ)
+main.obj : error LNK2001: unresolved external symbol "public: __cdecl Assimp::Importer::Importer(void)" (??0Importer@Assimp@@QEAA@XZ)
+Window.obj : error LNK2001: unresolved external symbol glfwSwapBuffers
+Window.obj : error LNK2001: unresolved external symbol glfwTerminate
+Window.obj : error LNK2001: unresolved external symbol glfwPollEvents
+Window.obj : error LNK2001: unresolved external symbol glfwInit
+Window.obj : error LNK2001: unresolved external symbol glfwCreateWindow
+Window.obj : error LNK2001: unresolved external symbol glfwWindowHint
+Window.obj : error LNK2001: unresolved external symbol glfwMakeContextCurrent
+Window.obj : error LNK2001: unresolved external symbol glfwDestroyWindow
+Window.obj : error LNK2001: unresolved external symbol glfwGetProcAddress
+Window.obj : error LNK2001: unresolved external symbol glfwSetErrorCallback
+Window.obj : error LNK2001: unresolved external symbol glfwWindowShouldClose
+GlWrapper.lib(Camera.obj) : error LNK2001: unresolved external symbol glfwGetKey
+GlWrapper.lib(Camera.obj) : error LNK2001: unresolved external symbol glfwSetInputMode
+GlWrapper.lib(Camera.obj) : error LNK2001: unresolved external symbol glfwSetCursorPosCallback
+C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Release\CheeseRenderEngine.exe : fatal error LNK1120: 18 unresolved externals
