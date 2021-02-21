@@ -1,3 +1,4 @@
+
 #version 460 core
 #extension GL_ARB_bindless_texture : require
 out vec4 imagery;
@@ -16,8 +17,8 @@ layout(bindless_sampler) uniform sampler2DArray CRE_texAtlas;
 
 //Texture locating
 struct TextureLocator {
-	vec2 atlasSize;
 	int layer;
+	vec2 atlasSize;
 	vec4 uvOffset; // the first two elements are the x and y offset. The 3rd and 
 					// fourth elements are for zooming in. The offsets are given in pixels
 };
@@ -25,21 +26,21 @@ struct TextureLocator {
 //RendEnt
 struct CRE_RendEnt {
 	mat4 model;
-	TextureLocator texLoc;
+	int layer;
+	vec2 atlasSize;
+	vec4 uvOffset; // the first two elements are the x and y offset. The 3rd and 
+					// fourth elements are for zooming in. The offsets are given in pixels
+	//TextureLocator texLoc;
 };
 
-layout(std140) uniform CRE_common {
+uniform CRE_common {
 	mat4 CRE_world;
 	CRE_RendEnt entities;//[10];
 };
 
 void main(){
 	CRE_RendEnt current = entities;//[gl_DrawID];
-	current.texLoc.uvOffset.x = 0;
-	current.texLoc.uvOffset.y = 0;
-	current.texLoc.uvOffset.z = 0;
-	current.texLoc.uvOffset.w = 0;
-	
+
 	//Ambient
 	vec3 ambient = 0.1 * CRE_lightColour;
 	//Diffuse
@@ -54,7 +55,6 @@ void main(){
 	vec3 specular = 0.5 * spec * CRE_lightColour;
 
 	//Scaling the texture
-	vec2 scaled = uv * (current.texLoc.uvOffset.zw / current.texLoc.atlasSize) + (current.texLoc.uvOffset.xy / current.texLoc.atlasSize);
-	
-	imagery = vec4((ambient + diffuse + specular) * vec3(texture(CRE_texAtlas,vec3(scaled,current.texLoc.layer))),1);
+	vec2 scaled = uv * (current.uvOffset.zw / current.atlasSize) + (current.uvOffset.xy / current.atlasSize);
+	imagery = vec4((ambient + diffuse + specular) * vec3(texture(CRE_texAtlas,vec3(scaled,current.layer))),1);
 }

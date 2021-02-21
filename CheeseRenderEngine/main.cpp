@@ -87,14 +87,17 @@
 
 */
 struct TexLocator {
-	glm::vec2 atlasSize;
 	int layer;
+	glm::vec2 atlasSize;
 	glm::vec4 uvOffset;
 };
 
 struct CRE_RendEnt {
 	glm::mat4 model;
-	TexLocator texLoc;
+	int layer;
+	glm::vec2 atlasSize;
+	glm::vec4 uvOffset;
+	//TexLocator texLoc;
 };
 
 CRE_RendEnt entities[10];
@@ -105,28 +108,29 @@ int main() {
 	Logger logger;
 	logger.omitSeverityLevel(Logger::levels::notification);
 	//Init code
-	OGL::Initializer init; //Spell intitialiser with an s not a z
+	OGL::Initializer init; //TODO: Spell intitialiser with an s not a z
 	chre::Batcher batcher;
 
 	//Architecture
 	std::vector<OGL::Image> images = { OGL::Image("res/tex/male_cheaple_sheet.png"), OGL::Image("res/tex/bulb.png"),OGL::Image("res/tex/missing.png") };
 	chre::AssetPool::texMan.setContents(images);
 	//Assets
-	chre::Mesh mesh = loadMesh("res/models/cheaple.obj");
+	chre::Mesh mesh = loadMesh("res/models/quad.obj");
 	mesh.format = {{3},{3},{2}};
-		
+	
+	//person
+	chre::PhongMat material;
+
+	//CRE_common ubo
 	glm::mat4 world = glm::mat4(1);
 	glm::mat4 model = glm::mat4(1);
 
-	OGL::UBObj ubo;
-	int entSize = OGL::UBObj::std140Types::mat4 + OGL::UBObj::std140Types::vec2 + OGL::UBObj::std140Types::vec1 + OGL::UBObj::std140Types::vec4;
-	ubo.createStd140("CRE_common", { OGL::UBObj::std140Types::mat4,(OGL::UBObj::std140Types)entSize });
+	OGL::UBObj ubo("CRE_common");
 
-	//person
-	chre::PhongMat material;
-	material.setTexture(chre::AssetPool::texMan.get("res/tex/male_cheaple_sheet.png"));
+	material.setTexture(chre::AssetPool::texMan.get("res/tex/missing.png"));
 	chre::RendEnt person(&mesh,&material);
 	material.shader.setUniformBlock(ubo);
+	ubo.create(material.shader);
 	batcher.add(person);
 	
 	//Light "entity"
@@ -142,17 +146,19 @@ int main() {
 	*/
 
 	//Setting UBO entity data
-	chre::Texture personTex = chre::AssetPool::texMan.get("res/tex/male_cheaple_sheet.png");
+	chre::Texture personTex = chre::AssetPool::texMan.get("res/tex/missing.png");
 	TexLocator personTexLoc;
-	personTexLoc.atlasSize = {personTex.owner->atWidth,personTex.owner->atHeight};
 	personTexLoc.layer = personTex.layerIndex;
-	personTexLoc.uvOffset = { personTex.x, personTex.y, personTex.u, personTex.v};
+	personTexLoc.atlasSize = {512,512};//{personTex.owner->atWidth,personTex.owner->atHeight};
+	personTexLoc.uvOffset = { 0, 0, 256, 256 };
 
 	entities[0] = {
 		model,
-		personTexLoc
+		personTexLoc.layer,
+		personTexLoc.atlasSize,
+		personTexLoc.uvOffset,
 	};
-
+	model = glm::translate(model,{0,0,1});
 	//Camera
 	Camera cam(window.getGlfwWin(), 800, 600);
 
@@ -173,11 +179,15 @@ int main() {
 
 		//Camera update
 		world = cam.update(window.getGlfwWin(), delta);
-
+		
 		//UBO updates
 		ubo.bind();
-		ubo.setValue(0, world);
-		ubo.setValue(1,entities[0]);
+		ubo.setValue("CRE_world", world);
+		ubo.setValue("entities.model", entities[0].model);
+		ubo.setValue("entities.layer", entities[0].layer);
+		ubo.setValue("entities.atlasSize", entities[0].atlasSize);
+		ubo.setValue("entities.uvOffset", entities[0].uvOffset);
+
 		ubo.unbind();
 
 		//Person shader update

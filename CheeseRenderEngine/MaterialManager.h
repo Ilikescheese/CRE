@@ -11,7 +11,7 @@ namespace chre {
 		T *get(const std::string &alias);
 
 		template<typename Mat>
-		void add(Mat &&mat, std::string alias);
+		void add(std::string alias, Mat &&mat);
 	};
 }
 

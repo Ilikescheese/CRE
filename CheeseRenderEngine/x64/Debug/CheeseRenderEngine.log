@@ -1,11 +1,1 @@
-﻿  main.cpp
-C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\drawFunctions.h(15,81): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\drawFunctions.h(18,66): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\extras\Camera.h(24,20): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\alex\source\repos\CRE\CheeseRenderEngine\extras\loadMesh.h(22,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\alex\source\repos\CRE\CheeseRenderEngine\extras\loadMesh.h(41,32): warning C4018: '<': signed/unsigned mismatch
-C:\Users\alex\source\repos\CRE\CheeseRenderEngine\extras\loadMesh.h(44,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\alex\source\repos\CRE\CheeseRenderEngine\main.cpp(123,46): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\alex\source\repos\CRE\CheeseRenderEngine\main.cpp(168,32): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-C:\Users\alex\source\repos\CRE\CheeseRenderEngine\main.cpp(172,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  CheeseRenderEngine.vcxproj -> C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Debug\CheeseRenderEngine.exe
+﻿  CheeseRenderEngine.vcxproj -> C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Debug\CheeseRenderEngine.exe

@@ -14,7 +14,7 @@ T *chre::MaterialManager::get(const std::string &alias) {
 }
 
 template<typename Mat>
-void chre::MaterialManager::add(Mat &&mat, std::string alias) {
+void chre::MaterialManager::add(std::string alias, Mat &&mat) {
 	try {
  		m_matDb.insert(std::make_pair<std::string,Mat>(std::move(alias),std::move(mat)));
     }
