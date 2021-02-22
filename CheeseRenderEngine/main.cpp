@@ -100,7 +100,7 @@ struct CRE_RendEnt {
 	//TexLocator texLoc;
 };
 
-CRE_RendEnt entities[10];
+CRE_RendEnt entities[1];
 
 int main() {
 	Window window("CheeseRenderer",800,600);
@@ -170,7 +170,6 @@ int main() {
 
 	while (window.isOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.4, 0.4, 0.4, 1);
 
 		//Delta timing
 		prev = cur;
@@ -183,10 +182,11 @@ int main() {
 		//UBO updates
 		ubo.bind();
 		ubo.setValue("CRE_world", world);
-		ubo.setValue("entities.model", entities[0].model);
+		ubo.setArray("entities",entities);
+		/*ubo.setValue("entities.model", entities[0].model);
 		ubo.setValue("entities.layer", entities[0].layer);
 		ubo.setValue("entities.atlasSize", entities[0].atlasSize);
-		ubo.setValue("entities.uvOffset", entities[0].uvOffset);
+		ubo.setValue("entities.uvOffset", entities[0].uvOffset);*/
 
 		ubo.unbind();
 

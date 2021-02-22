@@ -1,4 +1,3 @@
-
 #version 460 core
 #extension GL_ARB_bindless_texture : require
 out vec4 imagery;
@@ -35,11 +34,11 @@ struct CRE_RendEnt {
 
 uniform CRE_common {
 	mat4 CRE_world;
-	CRE_RendEnt entities;//[10];
+	CRE_RendEnt entities[10];
 };
 
 void main(){
-	CRE_RendEnt current = entities;//[gl_DrawID];
+	CRE_RendEnt current = entities[0];
 
 	//Ambient
 	vec3 ambient = 0.1 * CRE_lightColour;

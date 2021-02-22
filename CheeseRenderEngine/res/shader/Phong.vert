@@ -28,11 +28,11 @@ struct CRE_RendEnt {
 
 uniform CRE_common {
 	mat4 CRE_world;
-	CRE_RendEnt entities;//[10];
+	CRE_RendEnt entities[10];
 };
 
 void main() {
-	CRE_RendEnt current = entities;//[gl_DrawID];
+	CRE_RendEnt current = entities[0];
 
 	normal = mat3(transpose(inverse(current.model))) * aNormals;
 	fragPos = vec3(current.model * vec4(aPosition,1));
