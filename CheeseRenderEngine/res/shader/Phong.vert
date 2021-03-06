@@ -32,7 +32,7 @@ uniform CRE_common {
 };
 
 void main() {
-	CRE_RendEnt current = entities[0];
+	CRE_RendEnt current = entities[gl_DrawId];
 
 	normal = mat3(transpose(inverse(current.model))) * aNormals;
 	fragPos = vec3(current.model * vec4(aPosition,1));

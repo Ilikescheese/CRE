@@ -51,29 +51,29 @@
 */
 
 /*
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	TODO:For indirect multi draws, bind and set the indirect buffer object instead of passing it through directly
 	- Check todos in batcher.cpp's add function
-	- 
+	-
 
 
 
@@ -100,10 +100,10 @@ struct CRE_RendEnt {
 	//TexLocator texLoc;
 };
 
-CRE_RendEnt entities[1];
+CRE_RendEnt entities[10];
 
 int main() {
-	Window window("CheeseRenderer",800,600);
+	Window window("CheeseRenderer", 800, 600);
 	//Error logging
 	Logger logger;
 	logger.omitSeverityLevel(Logger::levels::notification);
@@ -112,12 +112,12 @@ int main() {
 	chre::Batcher batcher;
 
 	//Architecture
-	std::vector<OGL::Image> images = { OGL::Image("res/tex/male_cheaple_sheet.png"), OGL::Image("res/tex/bulb.png"),OGL::Image("res/tex/missing.png") };
+	std::vector<OGL::Image> images = { OGL::Image("res/tex/male_cheaple_sheet.png"), OGL::Image("res/tex/bulb.png"), OGL::Image("res/tex/missing.png") };
 	chre::AssetPool::texMan.setContents(images);
 	//Assets
-	chre::Mesh mesh = loadMesh("res/models/quad.obj");
-	mesh.format = {{3},{3},{2}};
-	
+	chre::Mesh mesh = loadMesh("res/models/teapot.obj");
+	mesh.format = { { 3 }, { 3 }, { 2 } };
+
 	//person
 	chre::PhongMat material;
 
@@ -128,11 +128,11 @@ int main() {
 	OGL::UBObj ubo("CRE_common");
 
 	material.setTexture(chre::AssetPool::texMan.get("res/tex/missing.png"));
-	chre::RendEnt person(&mesh,&material);
+	chre::RendEnt person(&mesh, &material);
 	material.shader.setUniformBlock(ubo);
 	ubo.create(material.shader);
 	batcher.add(person);
-	
+
 	//Light "entity"
 	/*glm::mat4 lightModel = glm::mat4(1);
 	glm::vec3 lightPos = {0,0,0};
@@ -149,7 +149,7 @@ int main() {
 	chre::Texture personTex = chre::AssetPool::texMan.get("res/tex/missing.png");
 	TexLocator personTexLoc;
 	personTexLoc.layer = personTex.layerIndex;
-	personTexLoc.atlasSize = {512,512};//{personTex.owner->atWidth,personTex.owner->atHeight};
+	personTexLoc.atlasSize = { 512, 512 };//{personTex.owner->atWidth,personTex.owner->atHeight};
 	personTexLoc.uvOffset = { 0, 0, 256, 256 };
 
 	entities[0] = {
@@ -158,7 +158,7 @@ int main() {
 		personTexLoc.atlasSize,
 		personTexLoc.uvOffset,
 	};
-	model = glm::translate(model,{0,0,1});
+	model = glm::translate(model, { 0, 0, 1 });
 	//Camera
 	Camera cam(window.getGlfwWin(), 800, 600);
 
@@ -166,7 +166,7 @@ int main() {
 
 	glEnable(GL_DEPTH_TEST);
 	//Delta timing
-	float cur = 0, prev = 0, delta = 0; 
+	float cur = 0, prev = 0, delta = 0;
 
 	while (window.isOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -178,23 +178,34 @@ int main() {
 
 		//Camera update
 		world = cam.update(window.getGlfwWin(), delta);
-		
+
 		//UBO updates
 		ubo.bind();
 		ubo.setValue("CRE_world", world);
-		ubo.setArray("entities",entities);
-		/*ubo.setValue("entities.model", entities[0].model);
-		ubo.setValue("entities.layer", entities[0].layer);
-		ubo.setValue("entities.atlasSize", entities[0].atlasSize);
-		ubo.setValue("entities.uvOffset", entities[0].uvOffset);*/
+		for (int i = 0; i < 10; i++) {
+			std::string value = "entities[" + std::to_string(i) + "].model";
+			ubo.setValue(value, entities[i].model);
 
+			value = "entities[" + std::to_string(i) + "].layer";
+			ubo.setValue(value, entities[i].layer);
+
+			value = "entities[" + std::to_string(i) + "].atlasSize";
+			ubo.setValue(value, entities[i].atlasSize);
+
+			value = "entities[" + std::to_string(i) + "].uvOffset";
+			ubo.setValue(value, entities[i].uvOffset);
+		}
+		/*ubo.setValue("entities.layer", entities[0].layer);
+		ubo.setValue("entities.atlasSize", entities[0].atlasSize);
+		ubo.setValue("entities.uvOffset", entities[0].uvOffset);
+		*/
 		ubo.unbind();
 
 		//Person shader update
 		material.shader.use();
-		material.shader.setVec3("CRE_viewPos",cam.position);
-		material.shader.setVec3("CRE_lightPos", {0,0,1});
-		
+		material.shader.setVec3("CRE_viewPos", cam.position);
+		material.shader.setVec3("CRE_lightPos", { 0, 0, 1 });
+
 		//material.shader.setMat4("entities[0].model",model);
 		//Light shader update
 		/*lightPos = { cos(cur) * .01, 0, sin(cur) * .01 };

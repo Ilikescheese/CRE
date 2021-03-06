@@ -38,7 +38,7 @@ uniform CRE_common {
 };
 
 void main(){
-	CRE_RendEnt current = entities[0];
+	CRE_RendEnt current = entities[gl_DrawId];
 
 	//Ambient
 	vec3 ambient = 0.1 * CRE_lightColour;
