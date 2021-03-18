@@ -3,6 +3,7 @@ layout(location=0) in vec3 aPosition;
 layout(location=1) in vec3 aNormals;
 layout(location=2) in vec2 aUv;
 
+flat out int CRE_drawID;
 out vec2 uv;
 //Phong lighting
 out vec3 normal;
@@ -31,8 +32,10 @@ uniform CRE_common {
 	CRE_RendEnt entities[10];
 };
 
+out CRE_RendEnt current;
 void main() {
-	CRE_RendEnt current = entities[gl_DrawId];
+	CRE_drawID = gl_DrawID;
+	current = entities[CRE_drawID];
 
 	normal = mat3(transpose(inverse(current.model))) * aNormals;
 	fragPos = vec3(current.model * vec4(aPosition,1));

@@ -12,6 +12,7 @@ void Window::m_setup() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majVersionGL);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minVersionGL);
+
 	glfwMakeContextCurrent(m_window);
 	if(!gladLoadGLLoader(GLADloadproc(glfwGetProcAddress)))
 		Logger::err("Failed to load");

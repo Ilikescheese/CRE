@@ -2,7 +2,6 @@
 #include "glWrapper/Shader.h"
 #include "glWrapper/VAObj.h"
 #include "glWrapper/Texture2DArray.h"
-#include "glWrapper/Initializer.h"
 #include "glWrapper/Image.h"
 #include "glWrapper/drawFunctions.h"
 #include "glWrapper/extras/Camera.h"
@@ -23,68 +22,10 @@
 #include "glWrapper/UBObj.h"
 
 /*
-	**handle errors with exceptions**
-	shader uniforms are prefixed "CRE_"
-	TODO: give interface blocks to the shaders
-
-	TODO: decide which objects are destroy()'d or deconstruct when out of scope
-	TODO: clean up headers, make a pch
 	TODO: Look into binary uploads for caching shaders
-	TODO: UBOs
-
-	**vertex format (are per shader, certain lighting features are used based on the material's bitset)**
-
-	DefaultMat
-		0 = position
-		1 = normals
-		2 = uvs
-
-	**Shader constants for CRE format**
-
-	//Projection view and model matrices
-	CRE_proj
-	CRE_view
-	CRE_model
-
 	TODO: Use the texture manager in the base engine not the render engine
 	TODO: shorten the key names for accessing textures in the texMan class
-*/
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	TODO:For indirect multi draws, bind and set the indirect buffer object instead of passing it through directly
-	- Check todos in batcher.cpp's add function
-	-
-
-
-
-
-
-
-
-
-
-
-
 */
 struct TexLocator {
 	int layer;
@@ -99,23 +40,117 @@ struct CRE_RendEnt {
 	glm::vec4 uvOffset;
 	//TexLocator texLoc;
 };
-
 CRE_RendEnt entities[10];
+
+//PhysX
+#define PX_PHYSX_STATIC_LIB
+#include "PxPhysicsAPI.h"
+#include "../snippets/snippetcommon/SnippetPrint.h"
+#include "../snippets/snippetcommon/SnippetPVD.h"
+#include "../snippets/snippetutils/SnippetUtils.h"
+using namespace physx;
+
+PxDefaultAllocator allocator;
+PxDefaultErrorCallback errorCallback;
+PxFoundation *foundation = nullptr;
+PxPhysics *physics = nullptr;
+PxDefaultCpuDispatcher *dispatcher = nullptr;
+PxScene *scene = nullptr;
+PxMaterial *material = nullptr;
+PxPvd *pvd = nullptr;
+PxReal stackZ = 10.0f;
+
+//Create a dynamic physics object
+PxRigidDynamic *createDynamic(const PxTransform &t, const PxGeometry &geometry, const PxVec3 &velocity = PxVec3(0)) {
+	PxRigidDynamic *dynamic = PxCreateDynamic(*physics,t,geometry, *material,10.0f);
+	dynamic->setAngularDamping(0.5);
+	dynamic->setLinearVelocity(velocity);
+	scene->addActor(*dynamic);
+	return dynamic;
+}
+
+//Creates a stack of boxes
+void createStack(const PxTransform &t, PxU32 size, PxReal halfExtent) {
+	PxShape *shape = physics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *material);
+	for (PxU32 i = 0; i < size; i++)
+	{
+		for (PxU32 j = 0; j < size - i; j++)
+		{
+			PxTransform localTm(PxVec3(PxReal(j * 2) - PxReal(size - i), PxReal(i * 2 + 1), 0) * halfExtent);
+			PxRigidDynamic *body = physics->createRigidDynamic(t.transform(localTm));
+			body->attachShape(*shape);
+			PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+			scene->addActor(*body);
+		}
+	}
+	shape->release();
+}
+
+void initPhysics(bool interactive) {
+	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocator, errorCallback);
+
+	pvd = PxCreatePvd(*foundation);
+	PxPvdTransport *transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
+	pvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+
+	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, PxTolerancesScale(), true, pvd);
+
+	PxSceneDesc sceneDesc(physics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	dispatcher = PxDefaultCpuDispatcherCreate(2);
+	sceneDesc.cpuDispatcher = dispatcher;
+	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	scene = physics->createScene(sceneDesc);
+
+	PxPvdSceneClient *pvdClient = scene->getScenePvdClient();
+	if (pvdClient)
+	{
+		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+	}
+	material = physics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	PxRigidStatic *groundPlane = PxCreatePlane(*physics, PxPlane(0, 1, 0, 0), *material);
+	scene->addActor(*groundPlane);
+
+	for (PxU32 i = 0; i < 5; i++)
+		createStack(PxTransform(PxVec3(0, 0, stackZ -= 10.0f)), 10, 2.0f);
+
+	if (!interactive)
+		createDynamic(PxTransform(PxVec3(0, 40, 100)), PxSphereGeometry(10), PxVec3(0, -50, -100));
+}
+
+void stepPhysics(bool /*interactive*/) {
+	scene->simulate(1.0f / 60.0f);
+	scene->fetchResults(true);
+}
+
+void cleanupPhysics(bool /*interactive*/) {
+	PX_RELEASE(scene);
+	PX_RELEASE(dispatcher);
+	PX_RELEASE(physics);
+	if (pvd)
+	{
+		PxPvdTransport *transport = pvd->getTransport();
+		pvd->release();	pvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(foundation);
+}
 
 int main() {
 	Window window("CheeseRenderer", 800, 600);
 	//Error logging
 	Logger logger;
 	logger.omitSeverityLevel(Logger::levels::notification);
-	//Init code
-	OGL::Initializer init; //TODO: Spell intitialiser with an s not a z
-	chre::Batcher batcher;
 
+	chre::Batcher batcher;
 	//Architecture
 	std::vector<OGL::Image> images = { OGL::Image("res/tex/male_cheaple_sheet.png"), OGL::Image("res/tex/bulb.png"), OGL::Image("res/tex/missing.png") };
 	chre::AssetPool::texMan.setContents(images);
 	//Assets
-	chre::Mesh mesh = loadMesh("res/models/teapot.obj");
+	chre::Mesh mesh = loadMesh("res/models/cube.obj");
 	mesh.format = { { 3 }, { 3 }, { 2 } };
 
 	//person
@@ -127,31 +162,19 @@ int main() {
 
 	OGL::UBObj ubo("CRE_common");
 
-	material.setTexture(chre::AssetPool::texMan.get("res/tex/missing.png"));
+	chre::Texture tex = chre::AssetPool::texMan.get("res/tex/missing.png");
+	material.setTexture(tex);
+
 	chre::RendEnt person(&mesh, &material);
 	material.shader.setUniformBlock(ubo);
 	ubo.create(material.shader);
 	batcher.add(person);
 
-	//Light "entity"
-	/*glm::mat4 lightModel = glm::mat4(1);
-	glm::vec3 lightPos = {0,0,0};
-	chre::BillboardMat lightSpr;
-	lightSpr.setTexture(chre::AssetPool::texMan.get("res/tex/bulb.png"));
-	chre::Mesh plane = loadMesh("res/models/quad.obj");
-	plane.format = { { 3 }, { 3 }, { 2 } };
-	chre::RendEnt light(&plane,&lightSpr);
-	lightSpr.shader.setUniformBlock(ubo);
-	batcher.add(light);
-	*/
-
 	//Setting UBO entity data
-	chre::Texture personTex = chre::AssetPool::texMan.get("res/tex/missing.png");
 	TexLocator personTexLoc;
-	personTexLoc.layer = personTex.layerIndex;
-	personTexLoc.atlasSize = { 512, 512 };//{personTex.owner->atWidth,personTex.owner->atHeight};
-	personTexLoc.uvOffset = { 0, 0, 256, 256 };
-
+	personTexLoc.layer = tex.layerIndex;
+	personTexLoc.atlasSize = { tex.atlas->layerW, tex.atlas->layerH };
+	personTexLoc.uvOffset = {tex.u,tex.v,tex.x,tex.y};
 	entities[0] = {
 		model,
 		personTexLoc.layer,
@@ -168,7 +191,12 @@ int main() {
 	//Delta timing
 	float cur = 0, prev = 0, delta = 0;
 
+	//PhysX stuff
+	initPhysics(false);
+	createStack({0,0,0},1,1);
 	while (window.isOpen()) {
+		//stepPhysics(false);
+		glClearColor(0.5,0.5,0.5,1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Delta timing
@@ -193,12 +221,8 @@ int main() {
 			ubo.setValue(value, entities[i].atlasSize);
 
 			value = "entities[" + std::to_string(i) + "].uvOffset";
-			ubo.setValue(value, entities[i].uvOffset);
+			ubo.setValue(value, personTexLoc.uvOffset);
 		}
-		/*ubo.setValue("entities.layer", entities[0].layer);
-		ubo.setValue("entities.atlasSize", entities[0].atlasSize);
-		ubo.setValue("entities.uvOffset", entities[0].uvOffset);
-		*/
 		ubo.unbind();
 
 		//Person shader update
@@ -206,16 +230,9 @@ int main() {
 		material.shader.setVec3("CRE_viewPos", cam.position);
 		material.shader.setVec3("CRE_lightPos", { 0, 0, 1 });
 
-		//material.shader.setMat4("entities[0].model",model);
-		//Light shader update
-		/*lightPos = { cos(cur) * .01, 0, sin(cur) * .01 };
-		lightModel = glm::translate(lightModel, lightPos);
-		lightSpr.shader.use();
-		lightSpr.shader.setMat4("CRE_model", lightModel);
-		*/
-
 		batcher.render();
 		window.update();
 	}
+	cleanupPhysics(false);
 	return 0;
 }

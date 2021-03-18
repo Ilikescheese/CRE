@@ -7,8 +7,7 @@ class Window
 	void m_setup();
 public:
 	GLFWwindow *getGlfwWin() const;
-	const GLenum minVersionGL = 4,
-		majVersionGL = 5;
+	const GLenum majVersionGL = 4, minVersionGL = 6; //4.6
 
 	unsigned width, height;
 	const char *title = nullptr;

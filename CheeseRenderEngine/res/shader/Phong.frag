@@ -3,6 +3,8 @@
 out vec4 imagery;
 in vec2 uv;
 
+flat in int CRE_drawID;
+
 //Phong lighting
 in vec3 fragPos;
 in vec3 normal;
@@ -38,8 +40,7 @@ uniform CRE_common {
 };
 
 void main(){
-	CRE_RendEnt current = entities[gl_DrawId];
-
+	CRE_RendEnt current = entities[CRE_drawID];
 	//Ambient
 	vec3 ambient = 0.1 * CRE_lightColour;
 	//Diffuse

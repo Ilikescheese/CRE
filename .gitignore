@@ -1,3 +1,5 @@
+!CheeseRenderEngine/extras
+
 # Prerequisites
 *.d
 
@@ -31,4 +33,3 @@
 *.exe
 *.out
 *.app
-CheeseRenderEngine/CheeseRenderEngine.vcxproj
