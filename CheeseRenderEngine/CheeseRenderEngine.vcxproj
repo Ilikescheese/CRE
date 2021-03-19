@@ -124,13 +124,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\PhysX\include/physx;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\26116\Documents\GitHub\OpenGLWrapper;deps/stb;extras\PhysX\include/physx;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>extras\PhysX\lib;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\Debug\x64;C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Debug;extras\assimp\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>extras\PhysX\lib;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\Debug\x64;C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\x64\Debug;extras\assimp\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GLWrapper.lib;glfw3dll.lib;assimp-vc142-mtd.lib;PhysX_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

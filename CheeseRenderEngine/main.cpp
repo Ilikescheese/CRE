@@ -21,12 +21,26 @@
 
 #include "glWrapper/UBObj.h"
 
+
+/*
+	for alex account
+
+	Include:C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\PhysX\include/physx;extras\assimp\include;%(AdditionalIncludeDirectories)
+	Lib: extras\PhysX\lib;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\Debug\x64;C:\Users\alex\source\repos\CRE\CheeseRenderEngine\x64\Debug;extras\assimp\lib\x64\Debug;%(AdditionalLibraryDirectories)
+
+	https://github.com/NVIDIAGameWorks/PhysX/blob/4.1/physx/snippets/snippetrender/SnippetRender.cpp
+	https://github.com/NVIDIAGameWorks/PhysX/blob/4.1/physx/snippets/snippethelloworld/SnippetHelloWorldRender.cpp
+	https://github.com/NVIDIAGameWorks/PhysX/blob/4.1/physx/snippets/snippethelloworld/SnippetHelloWorld.cpp
+
+*/
+
 /*
 	TODO: Look into binary uploads for caching shaders
 	TODO: Use the texture manager in the base engine not the render engine
 	TODO: shorten the key names for accessing textures in the texMan class
 	TODO:For indirect multi draws, bind and set the indirect buffer object instead of passing it through directly
 */
+
 struct TexLocator {
 	int layer;
 	glm::vec2 atlasSize;
@@ -40,7 +54,7 @@ struct CRE_RendEnt {
 	glm::vec4 uvOffset;
 	//TexLocator texLoc;
 };
-CRE_RendEnt entities[10];
+CRE_RendEnt entities[276];
 
 //PhysX
 #define PX_PHYSX_STATIC_LIB
@@ -62,7 +76,7 @@ PxReal stackZ = 10.0f;
 
 //Create a dynamic physics object
 PxRigidDynamic *createDynamic(const PxTransform &t, const PxGeometry &geometry, const PxVec3 &velocity = PxVec3(0)) {
-	PxRigidDynamic *dynamic = PxCreateDynamic(*physics,t,geometry, *material,10.0f);
+	PxRigidDynamic *dynamic = PxCreateDynamic(*physics, t, geometry, *material, 10.0f);
 	dynamic->setAngularDamping(0.5);
 	dynamic->setLinearVelocity(velocity);
 	scene->addActor(*dynamic);
@@ -77,7 +91,10 @@ void createStack(const PxTransform &t, PxU32 size, PxReal halfExtent) {
 		for (PxU32 j = 0; j < size - i; j++)
 		{
 			PxTransform localTm(PxVec3(PxReal(j * 2) - PxReal(size - i), PxReal(i * 2 + 1), 0) * halfExtent);
-			PxRigidDynamic *body = physics->createRigidDynamic(t.transform(localTm));
+
+			PxRigidDynamic *body = nullptr;
+			body = physics->createRigidDynamic(t.transform(localTm));
+
 			body->attachShape(*shape);
 			PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
 			scene->addActor(*body);
@@ -133,7 +150,8 @@ void cleanupPhysics(bool /*interactive*/) {
 	if (pvd)
 	{
 		PxPvdTransport *transport = pvd->getTransport();
-		pvd->release();	pvd = NULL;
+		pvd->release();
+		pvd = nullptr;
 		PX_RELEASE(transport);
 	}
 	PX_RELEASE(foundation);
@@ -174,14 +192,7 @@ int main() {
 	TexLocator personTexLoc;
 	personTexLoc.layer = tex.layerIndex;
 	personTexLoc.atlasSize = { tex.atlas->layerW, tex.atlas->layerH };
-	personTexLoc.uvOffset = {tex.u,tex.v,tex.x,tex.y};
-	entities[0] = {
-		model,
-		personTexLoc.layer,
-		personTexLoc.atlasSize,
-		personTexLoc.uvOffset,
-	};
-	model = glm::translate(model, { 0, 0, 1 });
+	personTexLoc.uvOffset = { 0, 0, 256, 256 };// { tex.u, tex.v, tex.x, tex.y };
 	//Camera
 	Camera cam(window.getGlfwWin(), 800, 600);
 
@@ -193,10 +204,30 @@ int main() {
 
 	//PhysX stuff
 	initPhysics(false);
-	createStack({0,0,0},1,1);
+
+	//Attaching physx to the entities in my render engine
+	createStack({ 0, 0, 0 }, 1, 1);
+
+	//Filling in entity data
+	for (int i = 0; i < 276; i++) {
+		entities[i] = {
+			model,
+			personTexLoc.layer,
+			personTexLoc.atlasSize,
+			personTexLoc.uvOffset,
+		};
+	}
+	PxScene *scene = nullptr;
+	PxGetPhysics().getScenes(&scene, 1);
+	PxU32 nActors = scene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC);
+	if (nActors) {
+		std::vector<PxRigidActor *>  actors(nActors);
+		scene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC, reinterpret_cast<PxActor **>(&actors[0]), nActors);
+		PxShape
+	}
 	while (window.isOpen()) {
-		//stepPhysics(false);
-		glClearColor(0.5,0.5,0.5,1);
+		stepPhysics(false);
+		glClearColor(0.5, 0.5, 0.5, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Delta timing
@@ -209,10 +240,17 @@ int main() {
 
 		//UBO updates
 		ubo.bind();
+
+		//lighting 
+		material.shader.use();
+		material.shader.setVec3("CRE_viewPos", cam.position);
+		material.shader.setVec3("CRE_lightPos", { 0, 0, 5 });
+
 		ubo.setValue("CRE_world", world);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 276; i++) {
 			std::string value = "entities[" + std::to_string(i) + "].model";
-			ubo.setValue(value, entities[i].model);
+
+			//entities[i].model = glm::translate(model, {});
 
 			value = "entities[" + std::to_string(i) + "].layer";
 			ubo.setValue(value, entities[i].layer);
@@ -224,11 +262,6 @@ int main() {
 			ubo.setValue(value, personTexLoc.uvOffset);
 		}
 		ubo.unbind();
-
-		//Person shader update
-		material.shader.use();
-		material.shader.setVec3("CRE_viewPos", cam.position);
-		material.shader.setVec3("CRE_lightPos", { 0, 0, 1 });
 
 		batcher.render();
 		window.update();
