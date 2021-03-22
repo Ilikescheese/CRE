@@ -56,5 +56,5 @@ void main(){
 
 	//Scaling the texture
 	vec2 scaled = uv * (current.uvOffset.zw / current.atlasSize) + (current.uvOffset.xy / current.atlasSize);
-	imagery = vec4((ambient + diffuse + specular) * vec3(texture(CRE_texAtlas,vec3(scaled,current.layer))),1);
+	imagery = vec4(CRE_drawID / 276,0,0,0);//vec4((ambient + diffuse + specular) * vec3(texture(CRE_texAtlas,vec3(scaled,current.layer))),1);
 }

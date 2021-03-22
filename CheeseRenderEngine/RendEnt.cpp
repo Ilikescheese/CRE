@@ -7,4 +7,4 @@ unsigned chre::RendEnt::getFormatAttribCount() {
 	return count;
 }
 
-chre::RendEnt::RendEnt(Mesh *geom, Material *mat) : mesh(geom),material(mat) {}
+chre::RendEnt::RendEnt(Mesh *geom, Material *mat) : mesh(geom), material(mat) {}

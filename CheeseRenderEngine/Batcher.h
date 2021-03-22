@@ -15,30 +15,32 @@ namespace chre {
 	public:
 		std::vector<float> vertices;
 		std::vector<unsigned> indices;
-		
+
 		std::initializer_list<OGL::VConf> *format = nullptr;
 
 		OGL::RenderCmd cmd; //Basic rendering necessities
 		//Multi-draw support
 		std::vector<OGL::MultiDrawElementsIndirectCmd> elementCmds;
-		std::vector<OGL::MultiDrawArraysIndirectCmd> arrayCmds; 
+		std::vector<OGL::MultiDrawArraysIndirectCmd> arrayCmds;
 
 		OGL::NMShader *shader = nullptr;
 		OGL::VAObj shape;
 
-		Batch(RendEnt &rendEnt) 
-		: format(&rendEnt.mesh->format), shader(&rendEnt.material->shader),
-			vertices(rendEnt.mesh->vertices), indices(rendEnt.mesh->indices),cmd(rendEnt.cmd)
-		{
-			if (!rendEnt.mesh->indices.empty())
+		Batch(RendEnt &rendEnt)
+			: format(&rendEnt.mesh->format), shader(&rendEnt.material->shader),
+			vertices(rendEnt.mesh->vertices), indices(rendEnt.mesh->indices), cmd(rendEnt.cmd), elementCmds(rendEnt.elementCmds), arrayCmds(rendEnt.arrayCmds) {
+			/*if (!rendEnt.mesh->indices.empty())
 				elementCmds.push_back({static_cast<GLuint>(rendEnt.mesh->indices.size()), rendEnt.cmd.instCount, 0, 0,rendEnt.material->getDrawId()});
-			else 
+			else
 				arrayCmds.push_back({ static_cast<GLuint>(rendEnt.mesh->vertices.size()), rendEnt.cmd.instCount, 0, rendEnt.material->getDrawId() });
+			*/
+
 		}
-		Batch(const Batch & rhs) 
-		: vertices(rhs.vertices), indices(rhs.indices), format(rhs.format), 
-		shader(rhs.shader), cmd(rhs.cmd),elementCmds(rhs.elementCmds){};
-		
+		Batch(const Batch &rhs)
+			: vertices(rhs.vertices), indices(rhs.indices), format(rhs.format),
+			shader(rhs.shader), cmd(rhs.cmd), elementCmds(rhs.elementCmds), arrayCmds(rhs.arrayCmds) {
+		};
+
 		void destroy() {
 			shape.destroy();
 			shader->destroy();
@@ -56,5 +58,6 @@ namespace chre {
 		void add(RendEnt &item);
 		void finalise(); //Writes all data for the static RendEnts into vaos
 		void render();
+		void render(std::vector<OGL::MultiDrawElementsIndirectCmd> &elementCmds);
 	};
 }

@@ -1,9 +1,21 @@
-﻿  main.cpp
+﻿  Batcher.cpp
+C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\drawFunctions.h(15,81): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\drawFunctions.h(18,66): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(47,75): warning C4838: conversion from 'unsigned __int64' to 'GLuint' requires a narrowing conversion
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(47,186): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(47,128): warning C4838: conversion from 'unsigned __int64' to 'GLuint' requires a narrowing conversion
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(57,73): warning C4838: conversion from 'unsigned __int64' to 'GLuint' requires a narrowing conversion
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(57,181): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(57,123): warning C4838: conversion from 'unsigned __int64' to 'GLuint' requires a narrowing conversion
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(72,36): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\Batcher.cpp(76,34): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+  main.cpp
 C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\drawFunctions.h(15,81): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\drawFunctions.h(18,66): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\extras\Camera.h(24,20): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(22,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(41,32): warning C4018: '<': signed/unsigned mismatch
 C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(44,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\main.cpp(222,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\main.cpp(277,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   CheeseRenderEngine.vcxproj -> C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\x64\Debug\CheeseRenderEngine.exe

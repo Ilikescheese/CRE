@@ -54,7 +54,8 @@ struct CRE_RendEnt {
 	glm::vec4 uvOffset;
 	//TexLocator texLoc;
 };
-CRE_RendEnt entities[276];
+#define PHYS_ENT_COUNT 276
+CRE_RendEnt entities[PHYS_ENT_COUNT];
 
 //PhysX
 #define PX_PHYSX_STATIC_LIB
@@ -138,6 +139,31 @@ void initPhysics(bool interactive) {
 		createDynamic(PxTransform(PxVec3(0, 40, 100)), PxSphereGeometry(10), PxVec3(0, -50, -100));
 }
 
+std::vector<glm::mat4> getPoses(PxRigidActor **actors) {
+	std::vector<glm::mat4> poses;
+	PxShape *shapes[PHYS_ENT_COUNT];
+	//poses.resize(nbShapes);
+
+	//Iterate through all actors
+	for (PxU32 i = 0; i < PHYS_ENT_COUNT; i++) {
+		const PxU32 nbShapes = actors[i]->getNbShapes();
+		actors[i]->getShapes(shapes, nbShapes);
+		//Iterate through all the shapes
+		for (PxU32 j = 0; j < nbShapes; j++) {
+
+			//Convert mat4s
+			const PxMat44 curPose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
+			glm::mat4 pose;
+			for (int row = 0; row < 4; row++) {
+				for (int column = 0; column < 4; column++)
+					pose[row][column] = curPose[row][column];
+			}
+			poses.push_back(pose);
+		}
+	}
+	return poses;
+}
+
 void stepPhysics(bool /*interactive*/) {
 	scene->simulate(1.0f / 60.0f);
 	scene->fetchResults(true);
@@ -184,6 +210,13 @@ int main() {
 	material.setTexture(tex);
 
 	chre::RendEnt person(&mesh, &material);
+	person.elementCmds.push_back(
+
+		{
+			(GLuint)mesh.indices.size(),
+			PHYS_ENT_COUNT, 0, 0
+		}
+	);
 	material.shader.setUniformBlock(ubo);
 	ubo.create(material.shader);
 	batcher.add(person);
@@ -209,7 +242,7 @@ int main() {
 	createStack({ 0, 0, 0 }, 1, 1);
 
 	//Filling in entity data
-	for (int i = 0; i < 276; i++) {
+	for (int i = 0; i < PHYS_ENT_COUNT; i++) {
 		entities[i] = {
 			model,
 			personTexLoc.layer,
@@ -220,15 +253,24 @@ int main() {
 	PxScene *scene = nullptr;
 	PxGetPhysics().getScenes(&scene, 1);
 	PxU32 nActors = scene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC);
+	PxRigidActor *actors[PHYS_ENT_COUNT];
 	if (nActors) {
-		std::vector<PxRigidActor *>  actors(nActors);
 		scene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC, reinterpret_cast<PxActor **>(&actors[0]), nActors);
-		PxShape
+	}
+	std::vector<glm::mat4> poses;
+
+	//test delete this
+	for (int i = 0; i < PHYS_ENT_COUNT; i++) {
+		glm::vec3 position = { float(rand() % 100) / 100, float(rand() % 100) / 100, float(rand() % 100) / 100 };
+		entities[i].model = glm::translate(model, position);
 	}
 	while (window.isOpen()) {
-		stepPhysics(false);
+		//stepPhysics(false);
 		glClearColor(0.5, 0.5, 0.5, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//Physics
+		poses = getPoses(actors);
 
 		//Delta timing
 		prev = cur;
@@ -246,12 +288,14 @@ int main() {
 		material.shader.setVec3("CRE_viewPos", cam.position);
 		material.shader.setVec3("CRE_lightPos", { 0, 0, 5 });
 
+		bool foo = true;
 		ubo.setValue("CRE_world", world);
-		for (int i = 0; i < 276; i++) {
+		for (int i = 0; i < PHYS_ENT_COUNT; i++) {
 			std::string value = "entities[" + std::to_string(i) + "].model";
-
-			//entities[i].model = glm::translate(model, {});
-
+			if (foo) {
+				foo = true ? false : true;//i >= PHYS_ENT_COUNT ? true : false;
+				ubo.setValue(value, entities[i].model);
+			}
 			value = "entities[" + std::to_string(i) + "].layer";
 			ubo.setValue(value, entities[i].layer);
 
@@ -263,7 +307,7 @@ int main() {
 		}
 		ubo.unbind();
 
-		batcher.render();
+		batcher.render(person.elementCmds);
 		window.update();
 	}
 	cleanupPhysics(false);

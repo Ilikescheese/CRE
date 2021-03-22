@@ -29,7 +29,7 @@ struct CRE_RendEnt {
 
 uniform CRE_common {
 	mat4 CRE_world;
-	CRE_RendEnt entities[10];
+	CRE_RendEnt entities[276];
 };
 
 out CRE_RendEnt current;
