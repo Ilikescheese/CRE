@@ -151,12 +151,26 @@ std::vector<glm::mat4> getPoses(PxRigidActor **actors) {
 		//Iterate through all the shapes
 		for (PxU32 j = 0; j < nbShapes; j++) {
 
-			//Convert mat4s
-			const PxMat44 curPose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
 			glm::mat4 pose;
-			for (int row = 0; row < 4; row++) {
-				for (int column = 0; column < 4; column++)
-					pose[row][column] = curPose[row][column];
+			for (int column = 0; column < 3; column++) {
+				for (int row = 0; row < 3; row++) {
+					//Convert mat4s
+					const PxMat44 curPose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
+					switch (column) {
+					case 0:
+						pose[row][column] = curPose.column0[row];
+						break;
+					case 1:
+						pose[row][column] = curPose.column1[row];
+						break;
+					case 2:
+						pose[row][column] = curPose.column2[row];
+						break;
+					case 3:
+						pose[row][column] = curPose.column3[row];
+						break;
+					}
+				}
 			}
 			poses.push_back(pose);
 		}
