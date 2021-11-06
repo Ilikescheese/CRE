@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Alex\Documents\GitHub\CRE;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glm;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glad\include;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glfw\include;C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\deps;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Alex\Documents\GitHub\CRE;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glm;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glad\include;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glfw\include;C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\deps;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -124,14 +124,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\26116\Documents\GitHub\OpenGLWrapper;deps/stb;extras\PhysX\include/physx;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Alex\Documents\GitHub\CRE;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glm;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glad\include;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glfw\include;C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\deps;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>extras\PhysX\lib;C:\Users\26116\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\lib\Debug\x64;C:\Users\26116\Documents\GitHub\CRE\CheeseRenderEngine\x64\Debug;extras\assimp\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GLWrapper.lib;glfw3dll.lib;assimp-vc142-mtd.lib;PhysX_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\assimp\lib\x64;C:\Users\Alex\Documents\GitHub\OpenGLWrapper\glWrapper\lib;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glfw\lib\x64;extras\assimp\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLWrapper.lib;glfw3dll.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glm;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glad\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps\glfw\include;C:\Users\alex\Documents\GitHub\OpenGLWrapper\glWrapper\deps;C:\Users\alex\Documents\GitHub\OpenGLWrapper;deps/stb;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Alex\Documents\GitHub\CRE;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glm;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glad\include;C:\Users\Alex\Documents\GitHub\CRE\glWrapper\deps\glfw\include;C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\deps;extras\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

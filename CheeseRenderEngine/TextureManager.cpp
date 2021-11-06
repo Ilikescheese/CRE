@@ -3,7 +3,7 @@
 #include "Logger.h"
 
 #define STB_RECT_PACK_IMPLEMENTATION
-#include "stb_rect_pack.h"
+#include "../CRE/CheeseRenderEngine/deps/stb/stb_rect_pack.h"
 #include <filesystem>
 
 //TODO: redo the whole class

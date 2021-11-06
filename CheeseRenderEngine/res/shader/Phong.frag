@@ -3,7 +3,7 @@
 out vec4 imagery;
 in vec2 uv;
 
-flat in int CRE_drawID;
+flat in int CRE_InstID;
 
 //Phong lighting
 in vec3 fragPos;
@@ -40,7 +40,7 @@ uniform CRE_common {
 };
 
 void main(){
-	CRE_RendEnt current = entities[CRE_drawID];
+	CRE_RendEnt current = entities[CRE_InstID];
 	//Ambient
 	vec3 ambient = 0.1 * CRE_lightColour;
 	//Diffuse
@@ -54,7 +54,7 @@ void main(){
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 specular = 0.5 * spec * CRE_lightColour;
 
-	//Scaling the texture
-	vec2 scaled = uv * (current.uvOffset.zw / current.atlasSize) + (current.uvOffset.xy / current.atlasSize);
-	imagery = vec4(CRE_drawID / 276,0,0,0);//vec4((ambient + diffuse + specular) * vec3(texture(CRE_texAtlas,vec3(scaled,current.layer))),1);
+	//Scaling the texture against the atlas
+	vec2 scaled = uv * (current.uvOffset.zw / current.atlasSize + current.uvOffset.xy / current.atlasSize);
+	imagery = vec4((ambient + diffuse + specular) * vec3(texture(CRE_texAtlas,vec3(scaled,current.layer))),1);
 }
