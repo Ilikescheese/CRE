@@ -159,22 +159,31 @@
     <ClCompile Include="AssetPool.cpp" />
     <ClCompile Include="Batcher.cpp" />
     <ClCompile Include="BillboardMat.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GenericMat.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainBackup.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="PhongMat.cpp" />
     <ClCompile Include="RendEnt.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderDb.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetPool.h" />
     <ClInclude Include="Batcher.h" />
     <ClInclude Include="BillboardMat.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="extras\loadMesh.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GenericMat.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Material.h" />
@@ -182,10 +191,12 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PhongMat.h" />
     <ClInclude Include="RendEnt.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="shaderDb.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

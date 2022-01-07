@@ -21,6 +21,10 @@
 
 #include "glWrapper/UBObj.h"
 #include <array>
+
+
+#include "Renderer.h"
+
 /*
 	TODO: Look into binary uploads for caching shaders
 	TODO: Use the texture manager in the base engine not the render engine
@@ -28,96 +32,43 @@
 	TODO:For indirect multi draws, bind and set the indirect buffer object instead of passing it through directly
 */
 
-struct TexLocator {
-	int layer;
-	glm::vec2 atlasSize;
-	glm::vec4 uvOffset;
-};
 
-struct CRE_RendEnt { //CRE::RendEnt
-	glm::mat4 model;
-	TexLocator texLoc;
-};
 
 #define RENDENTS 1
 
+#include "World.h"
+#include "Renderer.h"
+#include "GameObject.h"
 int main() {
 	Window window("CheeseRenderer", 800, 600);
 	//Error logging
 	Logger logger;
 	logger.omitSeverityLevel(Logger::levels::notification);
+	
 
-	chre::Batcher batcher;
+	
 	//Architecture
-	std::vector<OGL::Image> images = { OGL::Image("res/tex/missing.png")};
+	std::vector<OGL::Image> images = { OGL::Image("res/models/castle/tex/castle.png") };
 	chre::AssetPool::texMan.setContents(images);
 	//Assets
-	chre::Mesh mesh = loadMesh("res/models/cube.obj");
+	chre::Mesh mesh = loadMesh("res/models/castle/castle.obj");
 	mesh.format = { { 3 }, { 3 }, { 2 } };
 
-	//person
-	chre::PhongMat material;
-
-	//CRE_common ubo
-	glm::mat4 world = glm::mat4(1);
-	glm::mat4 model = glm::mat4(1);
-
-	OGL::UBObj ubo("CRE_common");
-
-	chre::Texture tex = chre::AssetPool::texMan.get("res/tex/missing.png");
-	material.setTexture(tex);
-
-	chre::RendEnt cube(&mesh, &material);
-	cube.elementCmds.push_back(
-
-		{
-			(GLuint)mesh.indices.size(),
-			RENDENTS, 0, 0
-		}
-	);
-	material.shader.setUniformBlock(ubo);
-	ubo.create(material.shader);
-	batcher.add(cube);
-
-	//Setting UBO entity data
-	TexLocator cubeTexLoc;
-	cubeTexLoc.layer = tex.layerIndex;
-	cubeTexLoc.atlasSize = { tex.atlas->layerW, tex.atlas->layerH };
-	cubeTexLoc.uvOffset = { tex.u, tex.v, tex.x, tex.y };
 	//Camera
 	Camera cam(window.getGlfwWin(), 800, 600);
 
-	batcher.finalise();
 
 	glEnable(GL_DEPTH_TEST);
 	//Delta timing
 	float cur = 0, prev = 0, delta = 0;
-	
-	CRE_RendEnt cubeEnt = {
-		model,
-		cubeTexLoc
-	};
-	std::vector<CRE_RendEnt> entities;
-	entities.push_back(cubeEnt);
 
-	//Write all entity positions into the ubo
-	ubo.bind();
-	ubo.setValue("CRE_world", world);
-	for (int i = 0; i < RENDENTS; i++) {
-		std::string value = "entities[" + std::to_string(i) + "].model";
-		ubo.setValue(value, entities[i].model);
-
-		value = "entities[" + std::to_string(i) + "].layer";
-		ubo.setValue(value, entities[i].texLoc.layer);
-
-		value = "entities[" + std::to_string(i) + "].atlasSize";
-		ubo.setValue(value, entities[i].texLoc.atlasSize);
-
-		value = "entities[" + std::to_string(i) + "].uvOffset";
-		ubo.setValue(value, entities[i].texLoc.uvOffset);
-	}
-	//ubo.unbind();
-
+	ge::World wrld;
+	ge::Renderer::commonUBO.name = "CRE_common";
+	ge::GameObject castle;
+	castle.mesh = mesh;
+	castle.texture = chre::AssetPool::texMan.get("res/models/castle/tex/castle.png");
+	castle.addToScene();
+	ge::Renderer::batcher.finalise();
 	while (window.isOpen()) {
 		glClearColor(0.5, 0.5, 0.5, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -127,18 +78,19 @@ int main() {
 		cur = glfwGetTime();
 		delta = cur - prev;
 
+		ge::Renderer::update();
 		//Camera update
-		world = cam.update(window.getGlfwWin(), delta);
+		ge::Renderer::world = cam.update(window.getGlfwWin(), delta);
 
 		//Update entities w/ camera
-		ubo.setValue("CRE_world", world);
+		ge::Renderer::commonUBO.setValue("CRE_world", ge::Renderer::world);
 
 		//lighting 
-		material.shader.use();
-		material.shader.setVec3("CRE_viewPos", cam.position);
-		material.shader.setVec3("CRE_lightPos", cam.position);
+		castle.material.shader.use();
+		castle.material.shader.setVec3("CRE_viewPos", cam.position);
+		castle.material.shader.setVec3("CRE_lightPos", cam.position);
 
-		batcher.render(cube.elementCmds);
+		ge::Renderer::batcher.render(castle.renderable.elementCmds);
 		window.update();
 	}
 	return 0;

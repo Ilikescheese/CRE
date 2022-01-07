@@ -1,9 +1,13 @@
-﻿  main.cpp
+﻿  GameObject.cpp
+  Renderer.cpp
+  main.cpp
 C:\Users\Alex\Documents\GitHub\CRE\glWrapper\drawFunctions.h(15,81): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 C:\Users\Alex\Documents\GitHub\CRE\glWrapper\drawFunctions.h(18,66): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 C:\Users\Alex\Documents\GitHub\CRE\glWrapper\extras\Camera.h(24,20): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(22,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(41,32): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(44,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\main.cpp(127,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(22,32): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(26,33): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(29,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\extras\loadMesh.h(34,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\main.cpp(78,20): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   CheeseRenderEngine.vcxproj -> C:\Users\Alex\Documents\GitHub\CRE\CheeseRenderEngine\x64\Debug\CheeseRenderEngine.exe

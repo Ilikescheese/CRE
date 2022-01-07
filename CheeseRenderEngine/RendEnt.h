@@ -19,6 +19,8 @@ namespace chre {
 		Mesh *mesh = nullptr;
 		//3d geometry ptr + format
 		RendEnt(Mesh *geom, Material *mat);
+
+		RendEnt() = default;
 	};
 }
 

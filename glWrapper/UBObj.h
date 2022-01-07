@@ -28,6 +28,7 @@ namespace OGL {
 
 		void create(const NMShader &shader);
 		UBObj(const std::string &blockName) : name(blockName) {};
+		UBObj() = default;
 	};
 	template<typename T>
 	inline void UBObj::setArray(std::string uniformName, T value[]) {
